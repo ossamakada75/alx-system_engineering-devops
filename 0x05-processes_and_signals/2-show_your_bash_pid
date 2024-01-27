@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Bash script to display information about bash processes
+# Note: The script uses 'ps' and 'grep' to filter bash processes
+# List all processes with a tree-like structure
+ps auxf | grep bash
+
