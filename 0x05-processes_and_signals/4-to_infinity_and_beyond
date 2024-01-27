@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Looping indefinitely with a message
+while true; do echo "To infinity and beyond"; sleep 2; done
+
