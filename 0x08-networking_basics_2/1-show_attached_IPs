@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
-# show all active ip4 adressse
-ifconfig | awk -F '[: ]+' '/inet addr:/ {print $4}
+# Get the list of network interfaces and their associated IPv4 addresses
+ip_info=$(ip addr | grep 'inet ' | awk '{print $2}')
+# Loop through the IP information and extract IPv4 addresses
+while read -r line; do
+    echo "$line" | cut -d '/' -f 1
+done <<< "$ip_info"
