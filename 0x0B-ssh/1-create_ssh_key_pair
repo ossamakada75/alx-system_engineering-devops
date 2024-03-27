@@ -1,3 +1,12 @@
-#!/usr/bin/env bash
-# script that creates an RSA key pair
-ssh-keygen -t rsa -b 4096 -f school -N "betty"
+#!/bin/bash
+
+# Define the file names
+private_key="school"
+public_key="${private_key}.pub"
+
+# Generate the key pair
+ssh-keygen -t rsa -b 4096 -f "$private_key" -N "betty"
+
+# Output success message
+echo "RSA key pair generated successfully."
+
