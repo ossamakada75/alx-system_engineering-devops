@@ -1,28 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Usage: ./1-world_wide_web <domain> <subdomain>
+# Display information about subdomains.
 
-# Function to display information about a subdomain
-display_info() {
-    local subdomain=$1
-    local domain=$2
-    local record_type=$(dig +short -t A ${subdomain}.${domain})
-    local destination=$(dig +short ${subdomain}.${domain})
-    
-    if [ -z "$record_type" ]; then
-        echo "The subdomain $subdomain is not configured."
-    else
-        echo "The subdomain $subdomain is a $record_type record and points to $destination"
-    fi
+domain_information () {
+    line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
 }
 
-# Check if both domain and subdomain parameters are provided
-if [ "$#" -eq 2 ]; then
-    display_info "$2" "$1"
-else
-    # Default subdomains to check
-    subdomains=("www" "lb-01" "web-01" "web-02")
-    
-    for subdomain in "${subdomains[@]}"; do
-        display_info "$subdomain" "$1"
-    done
+if [ "$#" == 1 ]
+then
+  domain_information "$1" "www"
+  domain_information "$1" "lb-01"
+  domain_information "$1" "web-01"
+  domain_information "$1" "web-02"
+elif [ "$#" == 2 ]
+then
+  domain_information "$1" "$2"
 fi
-
